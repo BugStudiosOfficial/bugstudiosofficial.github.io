@@ -1,0 +1,210 @@
+#!/usr/bin/env python3
+#!/usr/bin/env python
+from sys import argv
+import sys
+
+#config
+ext = ".jakim"
+filename = ""
+normaltext = "\033[0;37;40m"
+yellow = "\033[1;33;40m"
+
+#module variables
+iowrite = "io.WriteLine"
+
+#io.WriteLine
+printstring = ""
+#io.GetInput
+
+#store
+variables = {}
+tempvar = []
+temp3 = ""
+
+#file
+code = ""
+temp = ""
+temp2 = ""
+currentLine = 0
+
+#interpreter
+token = ""
+state = 0
+tokentemp = ""
+
+def lexer(data, token, currentLine = 0):
+    vars = []
+    state = 0
+    printstring = ""
+    printname = ""
+    temp = ""
+    temp2 = ""
+    temp3 = ""
+    tempv = ["", ""]
+
+
+
+        
+    for Char in data:
+        currentLine += 1
+        token += Char
+        if state == 0:
+            if token == " ":
+                token = ""
+        if Char == "\n":
+            token = token.replace("\n", "")
+        ##################################
+        ##################################
+        # PRINTING
+        if temp2 == "writing":
+            printstring += Char
+        if temp3 == "vardet":
+            printname = printname + Char
+            if Char == ";":
+                printname = printname.replace(";", "")
+                if printname in vars:
+                    printstring = variables[printname]
+                else:
+                    print("Variable Does Not Declared!")
+                    sys.exit()
+        if token == "io.WriteLine":
+            token = ""
+            state = 1
+            temp = "write"
+        if temp == "write":
+            if token == "$s$":
+                token = ""
+                temp = "writing"
+                temp2 = "writing"
+            elif token == "$v$":
+                token = ""
+                temp3 = "vardet"
+            
+                
+        if temp == "writing" and Char == ";" or temp3 == "vardet" and Char == ";":
+            temp = ""
+            temp2 = ""
+            temp3 = ""
+            printstring = printstring.replace(";", "")
+            print(printstring, end=' ')
+            printed = True
+            printstring = ""
+            printname = ""
+            state = 0
+            token = ""
+        if token == "io.WriteBack;":
+            print("\b\b")
+        #####################################
+        #####################################
+        # PRINTING END
+        #####################################
+        #####################################
+
+        # var
+        if token == "var":
+            token = ""
+            temp2 = "varname"
+        if temp2 == "varname":
+            if token == "$s$":
+                token = ""
+                temp = "varname1"
+        if Char == "=" and temp == "varname1":
+            token = ""
+            temp = "varvalue"
+        if Char == "=$v$" and temp == "varname1":
+            token = ""
+            temp = "tovar"
+        if temp == "varname1":
+            tempv[0] += Char
+        if temp == "varvalue":
+            state = 1
+            tempv[1] += Char
+        if temp == "tovar":
+            tempv[3] + Char
+        if Char == ";" and temp == "varvalue":
+            temp = ""
+            temp2 = ""
+            temp3 = ""
+            token = ""
+            state = 0
+            variables[tempv[0].replace("$", "")] = tempv[1].replace("=", "").replace(";", "")
+            vars.append(tempv[0].replace("$",""))
+            tempv[1] = ""
+            tempv[0] = ""
+            #print(variables)
+            #print(vars)
+        if Char == ";" and temp == "tovar":
+            temp = ""
+            temp2 = ""
+            temp3 = ""
+            token = ""
+            state = 0
+            variables[tempv[0].replace("$", "")] = tempv[1].replace("=", "").replace(";", "")
+            vars.append(tempv[0].replace("$",""))
+            tempv[1] = ""
+            tempv[0] = ""
+            print(variables)
+            print(vars)
+        ###################################
+        ###################################
+        # io.GetLine
+        if token == "io.GetLine":
+            varnameinput = ""
+            inputtemp = input()
+            token = ""
+            temp = "getline"
+        if temp == "getline":
+            if token == "$v$":
+                token = ""
+                temp2 = "pipi"
+        if temp == "getline" and temp2 == "pipi":
+            varnameinput += Char
+        if Char == ";" and temp2 == "pipi":
+            varnameinput = varnameinput.replace(";", "").replace("$", "")
+            temp = ""
+            temp2 = ""
+            temp3 = ""
+            token = ""
+            if varnameinput in vars:
+                variables[varnameinput] = inputtemp
+
+
+
+        # misc
+        if token == "end;":
+            print(normaltext)
+            sys.exit()
+        if token == "io.NL;":
+            token = ""
+            print()
+        if Char == "!":
+            temp = "comment"
+            token = ""
+        if temp == "comment":
+            if Char == ";":
+                token = ""
+                temp = ""
+        
+    
+
+
+def start(code, token):
+    filename = ""
+    try:
+        filename = argv[1]
+        code = open(filename, "r").read()
+    except:
+        print("\033[1;33;40m File: " + filename + " Not Found!")
+        print("\033[1;33;40m ErrorID: Error FileNotFound in Jakim" + normaltext)
+        sys.exit()
+    try:
+        option = argv[2]
+    except:
+        print(yellow + "Running with no arguments!" + normaltext + "\n")
+    
+
+    #final lexer
+    lexer(code, token)
+
+start(code, token)
+    

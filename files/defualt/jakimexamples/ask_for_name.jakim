@@ -1,0 +1,27 @@
+! this is a comment btw;
+
+! writes Enter Your Name;
+io.WriteLine$s$Enter Your Name: ;
+! you can insert big enter like this;
+
+
+
+! io.WriteLine$<v: writes whats inside variable          s: writes string>$<variable name or string to print>;
+! at end of line you must put the semi colon;
+! also in comments;
+
+! sorry for this text  im polish not english guy;
+
+
+
+
+! use var to define variables;
+var$s$name=fx;
+! getline is grab input from user to name;
+io.GetLine$v$name;
+! write Hello;
+io.WriteLine$s$Hello;
+! write whats inside name;
+io.WriteLine$v$name;
+! ends program;
+end;
