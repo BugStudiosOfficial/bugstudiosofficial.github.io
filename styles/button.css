@@ -1,0 +1,42 @@
+
+.pluginybtn {
+  border-radius:12px;
+  background-color: Green;
+  border: none;
+  color: white;
+  padding: 12px 30px;
+  cursor: pointer;
+  font-size: 20px;
+}
+
+.pluginybtn:hover {
+  background-color: RoyalBlue;
+}
+
+.programybtn {
+  border-radius:12px;
+  background-color: Green;
+  border: none;
+  color: white;
+  padding: 12px 30px;
+  cursor: pointer;
+  font-size: 20px;
+}
+
+.programybtn:hover {
+  background-color: RoyalBlue;
+}
+
+.dlbtn {
+  border-radius:12px;
+  background-color: Green;
+  border: none;
+  color: white;
+  padding: 12px 30px;
+  cursor: pointer;
+  font-size: 20px;
+}
+
+.dlbtn:hover {
+  background-color: RoyalBlue;
+}
