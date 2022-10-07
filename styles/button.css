@@ -40,3 +40,16 @@
 .dlbtn:hover {
   background-color: RoyalBlue;
 }
+.btn {
+  border-radius:12px;
+  background-color: Green;
+  border: none;
+  color: white;
+  padding: 12px 30px;
+  cursor: pointer;
+  font-size: 20px;
+}
+
+.btn:hover {
+  background-color: RoyalBlue;
+}
